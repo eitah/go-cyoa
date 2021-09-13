@@ -33,9 +33,11 @@ func mainErr() error {
 	if err != nil {
 		return fmt.Errorf("json story: %w", err)
 	}
-	
+
 	tpl := template.Must(template.New("").Parse(storyTemplate))
 	h := cyoa.NewHandler(adventure, cyoa.WithPathFunction(pathFn), cyoa.WithTemplate(tpl))
+
+	// We use a mux here to make sure that only traffic to /story hits this site sub-section.
 	mux := http.NewServeMux()
 	mux.Handle("/story/", h)
 
@@ -49,7 +51,7 @@ func pathFn(r *http.Request) string {
 	if path == "/story" || path == "/story/" {
 		path = "/story/intro"
 	}
-	// "/intro" => "intro"
+	// "/story/intro" => "intro"
 	return path[len("/story/"):]
 }
 
