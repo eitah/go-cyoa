@@ -40,14 +40,20 @@ type Option struct {
 	Chapter  string `json:"arc"`
 }
 
-func NewHandler(s Story) http.Handler {
+func NewHandler(s Story, t *template.Template) http.Handler {
+	if t == nil {
+		t = tpl
+	}
+
 	return handler{
 		s: s,
+		t: t,
 	}
 }
 
 type handler struct {
 	s Story
+	t *template.Template
 }
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {

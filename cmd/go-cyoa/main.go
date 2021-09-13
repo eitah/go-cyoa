@@ -32,7 +32,7 @@ port := flag.Int("port", 3000, "the port to start the CYOA Web Application on.")
 		return fmt.Errorf("json story: %w", err)
 	}
 
-	storyHandler := cyoa.NewHandler(adventure)
+	storyHandler := cyoa.NewHandler(adventure, nil)
 	fmt.Printf("Starting the server on port: %d\n", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), storyHandler))
 	return nil
