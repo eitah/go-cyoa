@@ -16,8 +16,8 @@ func main() {
 	}
 }
 
-func mainErr() error{
-port := flag.Int("port", 3000, "the port to start the CYOA Web Application on.")
+func mainErr() error {
+	port := flag.Int("port", 3000, "the port to start the CYOA Web Application on.")
 	filename := flag.String("file", "example-story.json", "the json file with the current adventure")
 	flag.Parse()
 	fmt.Printf("Using the story in %s.\n", *filename)
@@ -32,10 +32,12 @@ port := flag.Int("port", 3000, "the port to start the CYOA Web Application on.")
 		return fmt.Errorf("json story: %w", err)
 	}
 
-	storyHandler := cyoa.NewHandler(adventure, nil)
+	// this is an example of how you would use functional programming to provide custom template options
+	// tpl := template.Must(template.New("").Parse("this is a custom template! and how you might use it below"))
+	// 	storyHandler := cyoa.NewHandler(adventure, cyoa.WithTemplate(tpl))
+
+	storyHandler := cyoa.NewHandler(adventure)
 	fmt.Printf("Starting the server on port: %d\n", *port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", *port), storyHandler))
 	return nil
 }
-
-
